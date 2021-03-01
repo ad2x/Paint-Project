@@ -55,7 +55,7 @@ void setup() { //----------------------------------------
   size(800, 800);
   
   //Removes windows cursor
-  noCursor();
+  //noCursor();
   
   //Initialize menu vars
   menutoggle = false;
@@ -70,6 +70,7 @@ void setup() { //----------------------------------------
   //Define pgraphics layers
   menu = createGraphics(800, 200);
   canvas = createGraphics(800, 750);
+  cursor = createGraphics(100, 100);
   
   //Init. lock var
   lock = false;
@@ -96,7 +97,7 @@ void draw() { //----------------------------------------
   //==== Layers ====
   image(canvas, 0, 0);
   image(menu, 0, menuY);
-  cursor(mouseX, mouseY);
+  image(cursor, mouseX - 50, mouseY - 50);
   
   //==== Slider -> line thickness ====
   drawsize = map(sliderx, 400, 650, 1, 16);
@@ -268,15 +269,16 @@ void cursor(int x, int y) {
   }
   
   //Cursor expands when hovered over a button
-  cursor.ellipse(x, y, 15 * cursorh, 15 * cursorh); 
+  cursor.ellipse(50, 50, 15 * cursorh, 15 * cursorh); 
   
   //Stamps
   if (stamp1cursor == true && stamp1 != null) {
-    stamp1.resize(20, 20);
+    stamp1.resize(100, 100);
     
-    cursor.image(stamp1, 10, 10);
+    cursor.image(stamp1, 0, 0);
+    
   }
-  
+    
   cursor.endDraw();
 }
 
@@ -317,7 +319,6 @@ void slidermove() {
 void imagebutton1check() {
   if (mouseX > 400 && mouseX < 460 && mouseY > menuY + 100 && mouseY < menuY + 160 && image1 == false) {
     selectInput("Pick an image to use as a stamp", "pickstamp1");
-    println(1);
   }
 }
 
@@ -393,4 +394,5 @@ void mouseReleased() {
   
   //==== Stamp button stuff ====
   imagebutton1check();
+  usestamp();
 }

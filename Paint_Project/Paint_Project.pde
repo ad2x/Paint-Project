@@ -274,11 +274,8 @@ void cursorf(int x, int y) {
   cursor.ellipse(mouseX, mouseY, 15 * cursorh, 15 * cursorh); 
   
   //Stamps
-  if (stamp1cursor == true && stamp1 != null) {
-    stamp1.resize(50, 50);
-    
-    cursor.image(stamp1, mouseX - 25, mouseY - 25);
-    
+  if (stamp1cursor == true && stamp1 != null) { 
+    cursor.image(stamp1, mouseX - 25, mouseY - 25, 50, 50);
   }
     
   cursor.endDraw();

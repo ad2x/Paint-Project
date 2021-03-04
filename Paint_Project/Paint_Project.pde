@@ -55,7 +55,7 @@ void setup() { //----------------------------------------
   size(800, 800);
   
   //Removes windows cursor
-  //noCursor();
+  noCursor();
   
   //Initialize menu vars
   menutoggle = false;
@@ -70,7 +70,7 @@ void setup() { //----------------------------------------
   //Define pgraphics layers
   menu = createGraphics(800, 200);
   canvas = createGraphics(800, 750);
-  cursor = createGraphics(100, 100);
+  cursor = createGraphics(800, 800);
   
   //Init. lock var
   lock = false;
@@ -93,11 +93,12 @@ void draw() { //----------------------------------------
   
   //==== Other functions ====
   menubackground();
+  cursorf(mouseX, mouseY);
   
   //==== Layers ====
   image(canvas, 0, 0);
   image(menu, 0, menuY);
-  image(cursor, mouseX - 50, mouseY - 50);
+  image(cursor, 0, 0);
   
   //==== Slider -> line thickness ====
   drawsize = map(sliderx, 400, 650, 1, 16);
@@ -256,8 +257,9 @@ void movemenu() {
 }
 
 //==== Cursor ====
-void cursor(int x, int y) {
+void cursorf(int x, int y) {
   cursor.beginDraw();
+  cursor.clear();
   
   cursor.strokeWeight(drawsize);
   cursor.noFill();
@@ -269,13 +271,13 @@ void cursor(int x, int y) {
   }
   
   //Cursor expands when hovered over a button
-  cursor.ellipse(50, 50, 15 * cursorh, 15 * cursorh); 
+  cursor.ellipse(mouseX, mouseY, 15 * cursorh, 15 * cursorh); 
   
   //Stamps
   if (stamp1cursor == true && stamp1 != null) {
-    stamp1.resize(100, 100);
+    stamp1.resize(50, 50);
     
-    cursor.image(stamp1, 0, 0);
+    cursor.image(stamp1, mouseX - 25, mouseY - 25);
     
   }
     

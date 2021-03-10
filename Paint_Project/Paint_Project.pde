@@ -2,6 +2,14 @@
 //Feb 24 2021
 //1-4b
 
+//================ FEATURE LIST ================ 
+// Draw w/ multiple colours
+// Adjustible size slider
+// Eraser
+// Stamps (3 slots)
+// Pop-up menu w/ lock button (little yellow button on upper right)
+// Refresh button
+
 //Colour pallete 
 color Navy1 = #23395d;
 color Navy2 = #203354;
@@ -24,6 +32,7 @@ color DDGray = #111111;
 color LLGray = #D6D6D6;
 color LDGray = #ADADAD;
 color Gold = #D4AF37;
+color DGold = #bf9e32;
 
 //Slide up menu toggle vars
 boolean menutoggle;
@@ -47,9 +56,19 @@ boolean lock;
 int sliderx;
 
 //Custom stamps
+//--Stamp 1--
 PImage stamp1;
 boolean image1;
 boolean stamp1cursor;
+//--Stamp 2--
+PImage stamp2;
+boolean image2;
+boolean stamp2cursor;
+//--Stamp 3--
+PImage stamp3;
+boolean image3;
+boolean stamp3cursor;
+
 
 void setup() { //----------------------------------------
   size(800, 800);
@@ -79,8 +98,15 @@ void setup() { //----------------------------------------
   sliderx = 525;
   
   //Image booleans
+  //--Stamp 1--
   image1 = false;
   stamp1cursor = false;
+  //--Stamp 2--
+  image2 = false;
+  stamp2cursor = false;
+  //--Stamp 3--
+  image3 = false;
+  stamp3cursor = false;
 } //----------------------------------------
 
 void draw() { //----------------------------------------
@@ -185,13 +211,31 @@ void menubackground() {
   menu.line(415, 130, 445, 130);
   //--Stamp2--
   menu.rect(483.333, 100, 60, 60);
+  menu.line(513.333, 115, 513.333, 145);
+  menu.line(498.333, 130, 528.333, 130);
   //--Stamp3--
   menu.rect(566.666, 100, 60, 60);
-  //--Images--
+  menu.line(596.666, 115, 596.666, 145);
+  menu.line(581.666, 130, 611.666, 130);
+  
+  //==Images==
+  //--Stamp 1--
   if (stamp1 != null) {
-    stamp1.resize(60, 60);
-    menu.image(stamp1, 400, 100);
+    menu.image(stamp1, 400, 100, 60, 60);
   }
+  //--Stamp 2--
+  if (stamp2 != null) {
+    menu.image(stamp2, 483.333, 100, 60, 60);
+  }
+  //--Stamp 3--
+  if (stamp3 != null) {
+    menu.image(stamp3, 566.666, 100, 60, 60);
+  }
+  
+  //==== 'New' button ====
+  menu.stroke(DGold);
+  menu.fill(Gold + 20);
+  menu.ellipse(800, 200, 300, 300);
   
   menu.endDraw();
 }
@@ -274,8 +318,17 @@ void cursorf(int x, int y) {
   cursor.ellipse(mouseX, mouseY, 15 * cursorh, 15 * cursorh); 
   
   //Stamps
+  //--Stamp 1--
   if (stamp1cursor == true && stamp1 != null) { 
     cursor.image(stamp1, mouseX - 25, mouseY - 25, 50, 50);
+  }
+  //--Stamp 2--
+  if (stamp2cursor == true && stamp2 != null) {
+    cursor.image(stamp2, mouseX - 25, mouseY - 25, 50, 50);
+  }
+  //--Stamp 3--
+  if (stamp3cursor == true && stamp3 != null) {
+    cursor.image(stamp3, mouseX - 25, mouseY - 25, 50, 50);
   }
     
   cursor.endDraw();
@@ -333,14 +386,103 @@ void pickstamp1(File f) {
   }
 }
 
-void usestamp() {
+void usestamp1button() {
   if (mouseX > 400 && mouseX < 460 && mouseY > menuY + 100 && mouseY < menuY + 160 && image1 == true) {
     stamp1cursor = !stamp1cursor;
+    stamp2cursor = false;
+    stamp3cursor = false;
   }
 }
 
+void usestamp1() {
+  if (stamp1 != null) {
+    canvas.image(stamp1, mouseX - 0.5 * (15 * drawsize), mouseY - 0.5 * (15 * drawsize), 15 * drawsize, 15 * drawsize);
+  }
+}
+//========================
+
+//==== Stamp button 2 ====
+void imagebutton2check() {
+  if (mouseX > 484 && mouseX < 544 && mouseY > menuY + 100 && mouseY < menuY + 160 && image2 == false) {
+    selectInput("Pick an image to use as a stamp", "pickstamp2");
+  }
+}
+
+void pickstamp2(File f) {
+  if (f != null) {
+    int n = 0;
+    while (n < 10) {
+      PImage pic = loadImage(f.getPath());
+      n = n + 1;
+      stamp2 = pic;
+      image2 = true;
+    }
+  }
+}
+
+void usestamp2button() {
+  if (mouseX > 484 && mouseX < 544 && mouseY > menuY + 100 && mouseY < menuY + 160 && image1 == true) {
+    stamp2cursor = !stamp2cursor;
+    stamp1cursor = false;
+    stamp3cursor = false;
+  }
+}
+
+void usestamp2() {
+  if (stamp2 != null) {
+    canvas.image(stamp2, mouseX - 0.5 * (10 * drawsize), mouseY - 0.5 * (10 * drawsize), 10 * drawsize, 10 * drawsize);
+  }
+}
+//========================
+
+//==== Stamp button 2 ====
+void imagebutton3check() {
+  if (mouseX > 567 && mouseX < 627 && mouseY > menuY + 100 && mouseY < menuY + 160 && image3 == false) {
+    selectInput("Pick an image to use as a stamp", "pickstamp3");
+  }
+}
+
+void pickstamp3(File f) {
+  if (f != null) {
+    int n = 0;
+    while (n < 10) {
+      PImage pic = loadImage(f.getPath());
+      n = n + 1;
+      stamp3 = pic;
+      image3 = true;
+    }
+  }
+}
+
+void usestamp3button() {
+  if (mouseX > 567 && mouseX < 627 && mouseY > menuY + 100 && mouseY < menuY + 160 && image1 == true) {
+    stamp3cursor = !stamp3cursor;
+    stamp1cursor = false;
+    stamp2cursor = false;
+  }
+}
+
+void usestamp3() {
+  if (stamp3 != null) {
+    canvas.image(stamp3, mouseX - 0.5 * (10 * drawsize), mouseY - 0.5 * (10 * drawsize), 10 * drawsize, 10 * drawsize);
+  }
+}
 //===================================================
 //===================================================
+
+//==== 'New' button ====
+
+void refreshf() {
+  if (dist(mouseX, mouseY, 800, menuY + 200) <= 150) {
+    canvas.beginDraw();
+   
+    canvas.background(White);
+    
+    canvas.endDraw();
+  }
+}
+
+//=====================
 
 //==== For drawing ====
 void mouseDragged() {
@@ -349,10 +491,20 @@ void mouseDragged() {
     canvas.beginDraw();
   
     //==== Parameters change to match cursor ====
-    canvas.strokeWeight(drawsize);
-    canvas.stroke(drawcolor);
-    canvas.fill(drawcolor);
-    canvas.line(pmouseX, pmouseY, mouseX, mouseY);
+    if (stamp1cursor == false && stamp2cursor == false) {
+      canvas.strokeWeight(drawsize);
+      canvas.stroke(drawcolor);
+      canvas.fill(drawcolor);
+      canvas.line(pmouseX, pmouseY, mouseX, mouseY);
+    }
+    
+    if (stamp1cursor == true) {
+      usestamp1();
+    } else if (stamp2cursor == true) {
+      usestamp2();
+    } else if (stamp3cursor == true) {
+      usestamp3();
+    }
   
     canvas.endDraw();
   }
@@ -367,11 +519,21 @@ void mouseReleased() {
     canvas.beginDraw();
   
     //==== Parameters change to match cursor ====
-    canvas.strokeWeight(drawsize);
-    canvas.stroke(drawcolor);
-    canvas.fill(drawcolor);
-    canvas.line(pmouseX, pmouseY, mouseX, mouseY);
-  
+    if (stamp1cursor == false && stamp2cursor == false) {
+      canvas.strokeWeight(drawsize);
+      canvas.stroke(drawcolor);
+      canvas.fill(drawcolor);
+      canvas.line(pmouseX, pmouseY, mouseX, mouseY);
+    }
+    
+    if (stamp1cursor == true) {
+      usestamp1();
+    } else if (stamp2cursor == true) {
+      usestamp2();
+    } else if (stamp3cursor == true) {
+      usestamp3();
+    }
+    
     canvas.endDraw();
   }
     
@@ -392,6 +554,16 @@ void mouseReleased() {
   slidermove();
   
   //==== Stamp button stuff ====
+  //--Stamp 1--
   imagebutton1check();
-  usestamp();
+  usestamp1button();
+  //--Stamp 2--
+  imagebutton2check();
+  usestamp2button();
+  //--Stamp 3--
+  imagebutton3check();
+  usestamp3button();
+  
+  //==== Refresh button ====
+  refreshf();
 }
